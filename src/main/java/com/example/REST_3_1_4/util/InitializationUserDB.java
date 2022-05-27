@@ -47,5 +47,7 @@ public class InitializationUserDB {
 
         adminService.add(admin);
         adminService.add(user);
+
+        System.out.println(roleService.getRoleById(new Integer[]{1,2}));
     }
 }
