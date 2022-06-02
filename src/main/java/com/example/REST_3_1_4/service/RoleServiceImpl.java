@@ -3,6 +3,8 @@ package com.example.REST_3_1_4.service;
 import com.example.REST_3_1_4.dao.RoleDaoImpl;
 import com.example.REST_3_1_4.model.Role;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,7 +24,8 @@ public class RoleServiceImpl implements RoleService {
     @Transactional(readOnly = true)
     @Override
     public List<Role> getAllRoles() {
-        return roleDao.getAllRoles();
+        List<Role> roles = roleDao.getAllRoles();
+        return roles;
     }
 
 

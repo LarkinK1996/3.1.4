@@ -3,6 +3,8 @@ package com.example.REST_3_1_4.service;
 import com.example.REST_3_1_4.dao.AdminDao;
 import com.example.REST_3_1_4.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -43,6 +45,12 @@ public class AdminServiceImpl implements AdminService {
     @Override
     @Transactional(readOnly = true)
     public List<User> getAllUsers() {
+
+        List<User> users = adminDao.getAllUsers();
+
+        if (users.isEmpty()) {
+            return (List<User>) new ResponseEntity<List<User>>(HttpStatus.NOT_FOUND);
+        }
         return adminDao.getAllUsers();
     }
 
