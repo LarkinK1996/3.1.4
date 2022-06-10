@@ -5,6 +5,7 @@ import com.example.REST_3_1_4.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,6 @@ public class AdminServiceImpl implements AdminService {
         this.adminDao = adminDao;
     }
 
-
-
     @Transactional
     @Override
     public void add(User user) {
@@ -33,6 +32,7 @@ public class AdminServiceImpl implements AdminService {
     @Transactional
     @Override
     public void delete(int id) {
+
         adminDao.delete(id);
     }
 

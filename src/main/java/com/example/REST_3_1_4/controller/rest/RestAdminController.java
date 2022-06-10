@@ -3,7 +3,6 @@ package com.example.REST_3_1_4.controller.rest;
 import com.example.REST_3_1_4.model.Role;
 import com.example.REST_3_1_4.model.User;
 import com.example.REST_3_1_4.service.AdminService;
-import com.example.REST_3_1_4.service.RestServiceImpl;
 import com.example.REST_3_1_4.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -27,53 +26,69 @@ public class RestAdminController {
 
     private final AdminService adminService;
     private final RoleService roleService;
-    private final RestServiceImpl restService;
+
 
     @Autowired
-    public RestAdminController(RestServiceImpl restService, AdminService adminService, RoleService roleService) {
+    public RestAdminController(AdminService adminService, RoleService roleService) {
         this.adminService = adminService;
         this.roleService = roleService;
-        this.restService = restService;
     }
 
     @GetMapping("users")
     public ResponseEntity<List<User>> showAllUsers() {
-        return restService.showAllUsers();
+        List<User> users = adminService.getAllUsers();
+
+        return new ResponseEntity<>(users, HttpStatus.OK);
     }
 
     @GetMapping("roles/all")
     public ResponseEntity<List<Role>> getAllRoles() {
-        return restService.getAllRoles();
+        List<Role> roles = roleService.getAllRoles();
+
+        return new ResponseEntity<>(roles, HttpStatus.OK);
     }
 
     @GetMapping("roles/{id}")
     public ResponseEntity<Set<Role>> getRole(@PathVariable Integer id) {
-        return restService.getRole(id);
+        Integer[] array = new Integer[]{id};
+        Set role = roleService.getRoleById(array);
+
+        return new ResponseEntity<>(role, HttpStatus.OK);
     }
 
     @GetMapping("users/{id}")
     public ResponseEntity<User> getUser(@PathVariable Integer id) {
-        return restService.getUser(id);
+        User user = adminService.getUser(id);
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @GetMapping("users/me")
     public ResponseEntity<User> getActiveUser(Principal principal) {
-        return restService.getActiveUser(principal.getName());
+        User user = (User) adminService.loadUserByUsername(principal.getName());
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @PostMapping("users")
     public ResponseEntity<User> addUser(@RequestBody User user) {
-        return restService.addUser(user);
+        adminService.add(user);
+
+        return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 
     @PutMapping("users")
     public ResponseEntity<User> updateUser(@RequestBody User user) {
-       return restService.updateUser(user);
+        adminService.updateUser(user.getId(), user);
+
+        return new ResponseEntity<>(user, HttpStatus.OK);
     }
 
     @DeleteMapping("users/{id}")
     public ResponseEntity<User> deleteUser(@PathVariable Integer id) {
-        return restService.deleteUser(id);
+        adminService.delete(id);
+
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
 
