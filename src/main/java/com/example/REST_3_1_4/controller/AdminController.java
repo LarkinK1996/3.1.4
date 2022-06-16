@@ -58,19 +58,19 @@ public class AdminController {
         return "redirect:/admin";
     }
 
-    @RequestMapping(value = "/update", method={RequestMethod.PUT, RequestMethod.GET})
+    @RequestMapping(value = "/update", method = {RequestMethod.PUT, RequestMethod.GET})
     public String editUser(@ModelAttribute("user") User user,
                            @RequestParam(required = false) String roleAdmin) {
 
         Set<Role> roles = new HashSet<>();
-        Role role =roleService.getRole("USER");
+        Role role = roleService.getRole("USER");
         roles.add(role);
         if (roleAdmin != null && roleAdmin.equals("ADMIN")) {
             roles.add(roleService.getRole("ADMIN"));
         }
         user.setRoles(roles);
 
-        adminService.updateUser(user.getId(),user);
+        adminService.updateUser(user.getId(), user);
         return "redirect:/admin";
     }
 

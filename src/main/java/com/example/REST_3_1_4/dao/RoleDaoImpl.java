@@ -30,19 +30,11 @@ public class RoleDaoImpl implements RoleDao {
     }
 
     @Override
-    public Set<Role> getRoleById(Integer[] role_id) {
-        Set<Role> roleResult = new HashSet<>();
-        if (role_id == null) {
-            roleResult.add(entityManager.find(Role.class, 1));
-        } else {
-            for (int id : role_id) {
-                TypedQuery<Role> q = entityManager.createQuery("select role from Role role where role.id = :id", Role.class);
-                q.setParameter("id", id);
-                Role result = q.getResultList().stream().filter(role -> role.getId() == id).findAny().orElse(null);
-                roleResult.add(result);
-            }
-        }
-        return roleResult;
+    public Role getRoleById(Integer role_id) {
+        TypedQuery<Role> query = entityManager.createQuery("select r from Role r where r.id =:role_id", Role.class);
+        query.setParameter("role_id", role_id);
+        return query.getResultList().stream().findAny().orElse(null);
+
     }
 
     @Override

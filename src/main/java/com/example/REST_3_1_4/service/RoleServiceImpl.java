@@ -31,7 +31,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Transactional(readOnly = true)
     @Override
-    public Set<Role> getRoleById(Integer[] role_id) {
+    public Role getRoleById(Integer role_id) {
         return roleDao.getRoleById(role_id);
     }
 

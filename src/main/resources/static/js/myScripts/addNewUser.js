@@ -8,7 +8,7 @@ const userEmailAdd = document.getElementById('userEmailAdd')
 const userPasswordAdd = document.getElementById('userPasswordAdd')
 
 function Get(rolesUrl){
-    var Httpreq = new XMLHttpRequest(); // a new request
+    var Httpreq = new XMLHttpRequest();
     Httpreq.open("GET",rolesUrl,false);
     Httpreq.send(null);
     return Httpreq.responseText;
