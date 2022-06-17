@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,12 +28,12 @@ public class AdminServiceImpl implements AdminService {
     @Override
     public void add(User user) {
         adminDao.add(user);
+        user.setPassword(new BCryptPasswordEncoder(8).encode(user.getPassword()));
     }
 
     @Transactional
     @Override
     public void delete(int id) {
-
         adminDao.delete(id);
     }
 
@@ -45,7 +46,6 @@ public class AdminServiceImpl implements AdminService {
     @Override
     @Transactional(readOnly = true)
     public List<User> getAllUsers() {
-
         List<User> users = adminDao.getAllUsers();
 
         if (users.isEmpty()) {
@@ -57,6 +57,7 @@ public class AdminServiceImpl implements AdminService {
     @Transactional
     @Override
     public void updateUser(int id, User newUser) {
+        newUser.setPassword(new BCryptPasswordEncoder(8).encode(newUser.getPassword()));
         adminDao.updateUser(id, newUser);
     }
 

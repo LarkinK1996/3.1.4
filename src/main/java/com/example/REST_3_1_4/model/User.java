@@ -69,7 +69,7 @@ public class User implements UserDetails {
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
-        this.password = new BCryptPasswordEncoder(8).encode(password);
+        this.password = password;
         this.roles = roles;
     }
 
@@ -82,7 +82,7 @@ public class User implements UserDetails {
     }
 
     public void setPassword(String password) {
-        this.password = new BCryptPasswordEncoder(8).encode(password);
+        this.password = password;
     }
 
 
