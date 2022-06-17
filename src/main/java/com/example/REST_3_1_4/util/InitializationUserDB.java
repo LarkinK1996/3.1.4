@@ -41,8 +41,8 @@ public class InitializationUserDB {
         adminRole.add(role1);
         adminRole.add(role2);
 
-        User admin = new User("Костя", "Ларькин", "123", new BCryptPasswordEncoder(8).encode("123"), userRole);
-        User user = new User("Артём", "Соколов", "1234", new BCryptPasswordEncoder(8).encode("1234"), adminRole);
+        User admin = new User("Костя", "Ларькин", "123", "123", userRole);
+        User user = new User("Артём", "Соколов", "1234", "1234", adminRole);
 
 
         adminService.add(admin);

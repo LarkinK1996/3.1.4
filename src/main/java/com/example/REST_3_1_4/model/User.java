@@ -2,6 +2,7 @@ package com.example.REST_3_1_4.model;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -68,7 +69,7 @@ public class User implements UserDetails {
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
-        this.password = password;
+        this.password = new BCryptPasswordEncoder(8).encode(password);
         this.roles = roles;
     }
 
@@ -81,8 +82,9 @@ public class User implements UserDetails {
     }
 
     public void setPassword(String password) {
-        this.password = password;
+        this.password = new BCryptPasswordEncoder(8).encode(password);
     }
+
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
