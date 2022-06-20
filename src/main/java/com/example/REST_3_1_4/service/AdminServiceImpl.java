@@ -5,10 +5,9 @@ import com.example.REST_3_1_4.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,17 +17,19 @@ import java.util.List;
 public class AdminServiceImpl implements AdminService {
 
     private final AdminDao adminDao;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public AdminServiceImpl(AdminDao adminDao) {
+    public AdminServiceImpl(AdminDao adminDao, PasswordEncoder passwordEncoder) {
         this.adminDao = adminDao;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
     @Override
     public void add(User user) {
         adminDao.add(user);
-        user.setPassword(new BCryptPasswordEncoder(8).encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
     }
 
     @Transactional
@@ -57,7 +58,7 @@ public class AdminServiceImpl implements AdminService {
     @Transactional
     @Override
     public void updateUser(int id, User newUser) {
-        newUser.setPassword(new BCryptPasswordEncoder(8).encode(newUser.getPassword()));
+        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
         adminDao.updateUser(id, newUser);
     }
 
